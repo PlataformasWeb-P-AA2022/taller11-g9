@@ -1,45 +1,45 @@
 from django.contrib import admin
 
 # Importar las clases del modelo
-from administrativo.models import Estudiante, NumeroTelefonico
+from administrativo.models import Edificio, Departamento
 
-# Agregar la clase Estudiante para administrar desde
+# Agregar la clase Edificio para administrar desde
 # interfaz de administración
-# admin.site.register(Estudiante)
+# admin.site.register(Edificio)
 
 # Se crea una clase que hereda
 # de ModelAdmin para el modelo
-# Estudiante
-class EstudianteAdmin(admin.ModelAdmin):
+# Edificio
+class EdificioAdmin(admin.ModelAdmin):
     # listado de atributos que se mostrará
     # por cada registro
     # se deja de usar la representación (str) 
     # de la clase 
-    list_display = ('nombre', 'apellido', 'cedula')
-    search_fields = ('nombre', 'cedula')
+    list_display = ('nombre', 'direccion', 'ciudad','tipo')
+    search_fields = ('nombre', 'ciudad','tipo' )
 
 # admin.site.register se lo altera
-# el primer argumento es el modelo (Estudiante)
-# el segundo argumento la clase EstudianteAdmin
-admin.site.register(Estudiante, EstudianteAdmin)
+# el primer argumento es el modelo (Edificio)
+# el segundo argumento la clase EdificioAdmin
+admin.site.register(Edificio, EdificioAdmin)
 
-# Agregar la clase NumeroTelefonico para administrar desde
+# Agregar la clase Departamento para administrar desde
 # interfaz de administración
-# admin.site.register(NumeroTelefonico)
+# admin.site.register(Departamento)
 
 # Se crea una clase que hereda
-# de ModelAdmin para el modelo
-# NumeroTelefonico
-class NumeroTelefonicoAdmin(admin.ModelAdmin):
+# de ModelAdmin para el modelo Departamento
+class DepartamentoAdmin(admin.ModelAdmin):
     # listado de atributos que se mostrará
     # por cada registro
     # se deja de usar la representación (str) 
     # de la clase 
-    list_display = ('telefono', 'tipo', 'estudiante')
+    list_display = ('propietario', 'costo', 'numCuartos')
     # se agrega el atributo 
     # raw_id_fields que permite acceder a una interfaz 
-    # para buscar los estudiantes y seleccionar el que 
-    # se desee
-    raw_id_fields = ('estudiante',)
+    # para buscar los edificios y seleccionar el que 
+    # se desee, en caso de no usarlo, se nos proporciona un select
+    # de los edificios o la opcion de agregar o editar un edificio
+    raw_id_fields = ('edificio',)
 
-admin.site.register(NumeroTelefonico, NumeroTelefonicoAdmin)
+admin.site.register(Departamento, DepartamentoAdmin)
