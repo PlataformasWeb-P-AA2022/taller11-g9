@@ -39,6 +39,10 @@ class EdificioForm(ModelForm):
         
         if num_palabras < 1:
             raise forms.ValidationError("Ingrese la ciudad por favor")
+        #  El nombre de la ciudad no puede iniciar con la letra mayúscula **L**
+        if "L" in valor:
+            raise forms.ValidationError("Ingrese ciudad valida")
+        return valor
 
     def clean_tipo(self):       
         valor = self.cleaned_data['tipo']
@@ -48,8 +52,3 @@ class EdificioForm(ModelForm):
             raise forms.ValidationError("Ingrese el tipo de Edificio por favor")
         return valor
      
-# Form Departamento   
-class DepartamentoForm(ModelForm):
-    class Meta:
-        model = Departamento
-        fields = ['propietario', 'costo', 'numCuartos', 'edificio']
