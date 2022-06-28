@@ -52,3 +52,64 @@ class EdificioForm(ModelForm):
             raise forms.ValidationError("Ingrese el tipo de Edificio por favor")
         return valor
      
+# Form Departamento   
+class DepartamentoForm(ModelForm):
+    class Meta:
+        model = Departamento
+        fields = ['propietario', 'costo', 'numCuartos', 'edificio']
+    
+    # Número de cuartos no puede ser 0, ni mayor a 7.
+    def clean_numCuartos(self):
+        valor = self.cleaned_data['numCuartos']
+        if (valor) == 0 or (valor) > 7:
+            raise forms.ValidationError("Ingrese un numero de cuartos valido")
+        return valor
+    
+    # Costo de un departamento no puede ser mayor a $100 mil.
+    def clean_costo(self):
+        valor = self.cleaned_data['costo']
+        if (valor) > 100000:
+            raise forms.ValidationError("Ingrese un costo valido")
+        return valor
+    # El nombre completo de un propietario **no** debe tener menos de 3 palabras.
+    def clean_propietario(self):
+        valor = self.cleaned_data['propietario']
+        num_palabras = len(valor.split())
+
+        if num_palabras < 3:
+            raise forms.ValidationError("Ingrese sus nombres y apellidos por favor")
+        return valor
+    
+# Form DepartamentoEdificio
+class DepartamentoEdificioForm(ModelForm):
+    
+    def __init__(self, edificio, *args, **kwargs):
+        super(DepartamentoEdificioForm, self).__init__(*args, **kwargs)
+        self.initial['edificio'] = edificio
+        self.fields["edificio"].widget = forms.widgets.HiddenInput()
+        print(edificio)
+
+    class Meta:
+        model = Departamento
+        fields = ['propietario', 'costo', 'numCuartos', 'edificio']
+    # El nombre completo de un propietario **no** debe tener menos de 3 palabras.
+    def clean_propietario(self):
+        valor = self.cleaned_data['propietario']
+        num_palabras = len(valor.split())
+
+        if num_palabras < 3:
+            raise forms.ValidationError("Ingrese sus nombres y apellidos por favor")
+        return valor
+    # Costo de un departamento no puede ser mayor a $100 mil.
+    def clean_costo(self):
+        valor = self.cleaned_data['costo']
+        if (valor) > 100000:
+            raise forms.ValidationError("Ingrese un costo valido")
+        return valor
+    # Número de cuartos no puede ser 0, ni mayor a 7.
+    def clean_numCuartos(self):
+        valor = self.cleaned_data['numCuartos']
+        if (valor) == 0 or (valor) > 7:
+            raise forms.ValidationError("Ingrese un numero de cuartos valido")
+        return valor
+    
